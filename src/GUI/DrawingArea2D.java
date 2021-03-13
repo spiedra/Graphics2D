@@ -88,7 +88,6 @@ public class DrawingArea2D extends JPanel implements Runnable {
 
     @Override
     public void run() {
-
         while (true) {
             this.calculateRefresh();
             this.sleepThread();
