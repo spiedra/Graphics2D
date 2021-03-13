@@ -7,6 +7,7 @@ package GUI;
 
 import Domain.ClassThread;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.logging.Level;
@@ -51,22 +52,31 @@ public class DrawingArea2D extends JPanel implements Runnable {
     }
 
     private void drawToScreen() {
-        this.getGraphics().drawImage(this.bufferedImage, 800, 600, null);
-        this.getGraphics().dispose();
+        Graphics g = this.getGraphics();
+        g.drawImage(this.bufferedImage, 0, 0, 800, 600, null);
+        g.dispose();
+    }
+
+    private void drawElements() {
+        this.drawBackground();
+        this.drawRectangle();
+        this.drawToScreen();
+    }
+
+    private void restarWaiting(long elapsed) {
+        this.waiting = this.time - elapsed / 1000000;
+        if (this.waiting < 0) {
+            this.waiting = 5;
+        }
     }
 
     private void calculateRefresh() {
         long start;
         long elapsed;
         start = System.nanoTime();
-        this.drawBackground();
-        this.drawRectangle();
-        this.drawToScreen();
+        this.drawElements();
         elapsed = System.nanoTime() - start;
-        this.waiting = this.time - elapsed / 1000000;
-        if (waiting < 0) {
-            this.waiting = 5;
-        }
+        this.restarWaiting(elapsed);
     }
 
     private void sleepThread() {
@@ -88,6 +98,7 @@ public class DrawingArea2D extends JPanel implements Runnable {
 
     @Override
     public void run() {
+        this.init();
         while (true) {
             this.calculateRefresh();
             this.sleepThread();
