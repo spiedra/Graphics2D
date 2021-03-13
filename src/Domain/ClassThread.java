@@ -39,7 +39,7 @@ public class ClassThread extends Thread {
         this.positionY = positionY;
     }
 
-    public void draw(Graphics2D g) {
+    public void drawRectangle(Graphics2D g) {
         g.setColor(Color.RED);
         g.fillRect(this.positionX, this.positionY, SIZE, SIZE);
     }

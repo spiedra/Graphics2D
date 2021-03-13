@@ -5,10 +5,21 @@
  */
 package GUI;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author spiedra
  */
-public class MainWindow {
+public class MainWindow extends JFrame{
+
+    public MainWindow() {
+        this.setSize(800, 600);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.init();
+    }
     
+    private void init(){
+        this.add(new DrawingArea2D());
+    }
 }
